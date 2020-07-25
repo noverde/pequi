@@ -1,17 +1,18 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
-	"github.com/teris-io/shortid"
 	"os"
+
+	"github.com/gin-gonic/gin"
+	"github.com/teris-io/shortid"
 )
 
 type payload struct {
-	LongUrl string `json:"long_url" binding:"required"`
-	Domain string `json:"domain,omitempty"`
+	LongUrl   string `json:"long_url" binding:"required"`
+	Domain    string `json:"domain,omitempty"`
 	ShortPath string `json:"short_path,omitempty"`
-	Overwrite bool `json:"overwrite,omitempty"`
+	Overwrite bool   `json:"overwrite,omitempty"`
 }
 
 type header struct {
@@ -43,7 +44,7 @@ func main() {
 
 	r.POST("/v1/shorten", func(c *gin.Context) {
 		var auth header
-		if err := c.BindHeader(&auth); err != nil ||!isKeyValid(auth.Authorization) {
+		if err := c.BindHeader(&auth); err != nil || !isKeyValid(auth.Authorization) {
 			c.JSON(http.StatusUnauthorized, gin.H{"Unauthorized": "Invalid authorization token on header"})
 			return
 		}
@@ -70,11 +71,11 @@ func isKeyValid(key string) bool {
 }
 
 //TODO: Implement Later
-func processAndSave(data *payload) (string, error){
+func processAndSave(data *payload) (string, error) {
 	return shortid.Generate()
 }
 
 //TODO: Implement Later
 func getRoute(path string) (string, error) {
-	return "https://google.com/?q="+path, nil
+	return "https://google.com/?q=" + path, nil
 }
