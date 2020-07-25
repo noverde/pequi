@@ -9,7 +9,7 @@ import (
 )
 
 type payload struct {
-	LongUrl   string `json:"long_url" binding:"required"`
+	LongURL   string `json:"long_url" binding:"required"`
 	Domain    string `json:"domain,omitempty"`
 	ShortPath string `json:"short_path,omitempty"`
 	Overwrite bool   `json:"overwrite,omitempty"`
