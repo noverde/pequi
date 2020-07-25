@@ -1,2 +1,18 @@
-vendor/*
-.idea/*
+# Binaries for programs and plugins
+urler
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.out
+__debug_bin
+
+# Test binary, built with `go test -c`
+*.test
+
+# Dependency directories
+vendor/
+
+# IntelliJ IDEA metadata
+.idea/
