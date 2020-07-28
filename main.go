@@ -48,8 +48,8 @@ func init() {
 
 func main() {
 	r := gin.Default()
-	r.GET("/:path", func(c *gin.Context) {
-		var route, err = getRoute(c.Param("path"))
+	r.GET("/:hash", func(c *gin.Context) {
+		var route, err = getRoute(c.Param("hash"))
 		if err != nil {
 			c.Data(http.StatusNotFound, "text/html; charset=utf-8", []byte("404 Not Found\n"))
 			return
