@@ -51,7 +51,7 @@ func main() {
 	r.GET("/:path", func(c *gin.Context) {
 		var route, err = getRoute(c.Param("path"))
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, err.Error())
+			c.Data(http.StatusNotFound, "text/html; charset=utf-8", []byte("404 Not Found\n"))
 			return
 		}
 		c.Redirect(http.StatusMovedPermanently, route)
