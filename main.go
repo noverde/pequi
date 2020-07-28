@@ -7,7 +7,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/teris-io/shortid"
 )
 
 type payload struct {
@@ -47,9 +46,12 @@ func init() {
 }
 
 func main() {
+	storeInit()
+	defer storeClose() // Without gin graceful stop it is not really working
+
 	r := gin.Default()
 	r.GET("/:hash", func(c *gin.Context) {
-		var route, err = getRoute(c.Param("hash"))
+		var route, err = storeGet(c.Param("hash"))
 		if err != nil {
 			c.Data(http.StatusNotFound, "text/html; charset=utf-8", []byte("404 Not Found\n"))
 			return
@@ -69,7 +71,7 @@ func main() {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		var id, err = processAndSave(&data)
+		var id, err = storePut(&data)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
@@ -83,14 +85,4 @@ func main() {
 //TODO: Implement Later
 func isKeyValid(key string) bool {
 	return true
-}
-
-//TODO: Implement Later
-func processAndSave(data *payload) (string, error) {
-	return shortid.Generate()
-}
-
-//TODO: Implement Later
-func getRoute(path string) (string, error) {
-	return "https://google.com/?q=" + path, nil
 }
