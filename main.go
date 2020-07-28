@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"github.com/teris-io/shortid"
 )
 
@@ -27,6 +28,13 @@ func init() {
 	// Prefix text prevents the message from being parsed as JSON.
 	// A timestamp is added when shipping logs to Stackdriver.
 	log.SetFlags(0)
+
+	// Load environment vars from .env, the system env vars has
+	// precedence over .env
+	err := godotenv.Load()
+	if err == nil {
+		log.Print("Loading environment vars from .env file.")
+	}
 
 	port = os.Getenv("PORT")
 	if port == "" {
