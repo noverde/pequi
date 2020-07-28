@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"os"
 
@@ -22,6 +23,11 @@ type header struct {
 var port string
 
 func init() {
+	// Disable log prefixes such as the default timestamp.
+	// Prefix text prevents the message from being parsed as JSON.
+	// A timestamp is added when shipping logs to Stackdriver.
+	log.SetFlags(0)
+
 	port = os.Getenv("PORT")
 	if port == "" {
 		port = ":8080"
@@ -62,7 +68,7 @@ func main() {
 
 		c.JSON(http.StatusOK, gin.H{"ShortPath": id})
 	})
-	r.Run(port)
+	log.Fatal(r.Run(port))
 }
 
 //TODO: Implement Later
