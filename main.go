@@ -36,9 +36,10 @@ func init() {
 		log.Print("Loading environment vars from .env file.")
 	}
 
-	port = os.Getenv("PORT")
-	if port == "" {
-		port = ":8080"
+	// HTTP listen port
+	port = ":8080"
+	if value, ok := os.LookupEnv("HTTP_PORT"); ok {
+		port = value
 	}
 	if port[0] != ':' {
 		port = ":" + port
