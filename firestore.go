@@ -20,7 +20,7 @@ func firestoreInit() {
 
 	log.Printf("Initializing Firestore storage engine")
 
-	firestoreProjectID = ""
+	firestoreProjectID = "*detect-project-id*"
 	if value, ok := os.LookupEnv("FIRESTORE_PROJECT"); ok {
 		firestoreProjectID = value
 	}
