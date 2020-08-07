@@ -43,7 +43,7 @@ func firestoreClose() {
 	firestoreClient.Close()
 }
 
-func firestoreAuthorization(token string) bool {
+func firestoreAuth(token string) bool {
 	return false
 }
 

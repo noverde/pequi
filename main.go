@@ -60,7 +60,7 @@ func main() {
 	})
 
 	r.POST("/v1/shorten", func(c *gin.Context) {
-		if !storeAuthorization(c.GetHeader("authorization")) {
+		if !storeAuth(c.GetHeader("authorization")) {
 			c.JSON(http.StatusUnauthorized, gin.H{"Unauthorized": "Invalid authorization token on header"})
 			return
 		}

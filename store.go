@@ -17,12 +17,12 @@ func storeClose() {
 	firestoreClose()
 }
 
-func storeAuthorization(token string) bool {
+func storeAuth(token string) bool {
 	if storeAuthToken != "" && storeAuthToken == token {
 		return true
 	}
 
-	return firestoreAuthorization(token)
+	return firestoreAuth(token)
 }
 
 func storeGet(hash string) (string, error) {
