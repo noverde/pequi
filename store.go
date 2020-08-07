@@ -6,13 +6,10 @@ import (
 	"github.com/teris-io/shortid"
 )
 
-var storeAuthToken = ""
+var storeAuthToken string
 
 func storeInit() {
-	if value, ok := os.LookupEnv("AUTHORIZATION_TOKEN"); ok {
-		storeAuthToken = value
-	}
-
+	storeAuthToken = os.Getenv("AUTHORIZATION_TOKEN")
 	firestoreInit()
 }
 
