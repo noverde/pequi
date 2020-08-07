@@ -16,3 +16,6 @@ vendor/
 
 # IntelliJ IDEA metadata
 .idea/
+
+# Environment vars
+.env
