@@ -43,6 +43,10 @@ func firestoreClose() {
 	firestoreClient.Close()
 }
 
+func firestoreAuthorization(token string) bool {
+	return false
+}
+
 func firestoreGet(hash string) (string, error) {
 	doc, err := firestoreClient.Collection(firestoreCollection).Doc(hash).Get(firestoreContext)
 	if err == nil {

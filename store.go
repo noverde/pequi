@@ -1,13 +1,31 @@
 package main
 
-import "github.com/teris-io/shortid"
+import (
+	"os"
+
+	"github.com/teris-io/shortid"
+)
+
+var storeAuthToken = ""
 
 func storeInit() {
+	if value, ok := os.LookupEnv("AUTHORIZATION_TOKEN"); ok {
+		storeAuthToken = value
+	}
+
 	firestoreInit()
 }
 
 func storeClose() {
 	firestoreClose()
+}
+
+func storeAuthorization(token string) bool {
+	if storeAuthToken != "" && storeAuthToken == token {
+		return true
+	}
+
+	return firestoreAuthorization(token)
 }
 
 func storeGet(hash string) (string, error) {

@@ -60,8 +60,7 @@ func main() {
 	})
 
 	r.POST("/v1/shorten", func(c *gin.Context) {
-		var auth header
-		if err := c.BindHeader(&auth); err != nil || !isKeyValid(auth.Authorization) {
+		if !storeAuthorization(c.GetHeader("authorization")) {
 			c.JSON(http.StatusUnauthorized, gin.H{"Unauthorized": "Invalid authorization token on header"})
 			return
 		}
@@ -80,9 +79,4 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"ShortPath": id})
 	})
 	log.Fatal(r.Run(port))
-}
-
-//TODO: Implement Later
-func isKeyValid(key string) bool {
-	return true
 }
