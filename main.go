@@ -10,10 +10,7 @@ import (
 )
 
 type payload struct {
-	LongURL   string `json:"long_url" binding:"required"`
-	Domain    string `json:"domain,omitempty"`
-	ShortPath string `json:"short_path,omitempty"`
-	Overwrite bool   `json:"overwrite,omitempty"`
+	URL string `json:"url" binding:"required"`
 }
 
 type header struct {
@@ -70,7 +67,7 @@ func main() {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		slug, err := storePut(data.LongURL)
+		slug, err := storePut(data.URL)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
