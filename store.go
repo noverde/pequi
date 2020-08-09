@@ -41,7 +41,7 @@ func storePut(url string) (string, error) {
 			log.Printf("Shortid generation failed (%d)", count)
 			continue
 		}
-		if err = firestorePut("test", url); err == nil {
+		if err = firestorePut(slug, url); err == nil {
 			return slug, nil
 		}
 		log.Printf("Slug store failed (%d)", count)
