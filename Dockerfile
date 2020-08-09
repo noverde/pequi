@@ -11,14 +11,14 @@ RUN dep ensure --vendor-only
 
 # Copy the code from the host and compile it.
 COPY *.go ./
-RUN CGO_ENABLED=0 GOOS=linux go build -a -v -o urler .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -v -o pequi .
 
 # Use the official Alpine image for a lean production container.
 FROM alpine:3
 RUN apk add --no-cache ca-certificates
 
 # Copy the binary to the production image from the builder stage.
-COPY --from=builder /go/src/app/urler /app/urler
+COPY --from=builder /go/src/app/pequi /app/pequi
 
 # Run the web service on container startup.
-CMD ["/app/urler"]
+CMD ["/app/pequi"]
