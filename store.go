@@ -8,7 +8,7 @@ import (
 	"github.com/teris-io/shortid"
 )
 
-const storeMaxRetries = 10
+const storeMaxRetries = 5
 
 var storeAuthToken string
 
