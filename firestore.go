@@ -59,6 +59,6 @@ func firestoreGet(hash string) (string, error) {
 }
 
 // TODO: Implement Later
-func firestorePut() {
-
+func firestorePut(slug string, url string) error {
+	return nil
 }

@@ -70,13 +70,13 @@ func main() {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		var id, err = storePut(&data)
+		slug, err := storePut(data.LongURL)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
 
-		c.JSON(http.StatusOK, gin.H{"ShortPath": id})
+		c.JSON(http.StatusOK, gin.H{"slug": slug})
 	})
 	log.Fatal(r.Run(port))
 }
