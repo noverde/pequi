@@ -2,10 +2,13 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log"
 	"os"
 
 	"cloud.google.com/go/firestore"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 var (
@@ -58,7 +61,28 @@ func firestoreGet(hash string) (string, error) {
 	return "", err
 }
 
-// TODO: Implement Later
 func firestorePut(slug string, url string) error {
-	return nil
+	// Reference collection item and run a transaction to prevent duplication
+	ref := firestoreClient.Collection(firestoreCollection).Doc(slug)
+	err := firestoreClient.RunTransaction(firestoreContext,
+		func(ctx context.Context, tx *firestore.Transaction) error {
+			// Try to get item
+			_, err := tx.Get(ref)
+			if err == nil {
+				return errors.New("Item already exists")
+			}
+
+			// We can proceed only if error is notfound
+			if status.Code(err) != codes.NotFound {
+				return err
+			}
+
+			// Save data
+			return tx.Set(ref, map[string]interface{}{
+				"url":        url,
+				"created_at": firestore.ServerTimestamp,
+			})
+		})
+
+	return err
 }
