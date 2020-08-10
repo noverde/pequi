@@ -18,35 +18,44 @@ type storeDriver interface {
 	put(string, string) error
 }
 
-var (
-	driver         storeDriver
-	storeAuthToken string
-)
-
-func storeInit() {
-	storeAuthToken = os.Getenv("AUTHORIZATION_TOKEN")
-
-	driver = &firestoreDriver{}
-	driver.init()
+// Store is the database storage driver.
+type Store struct {
+	driver    storeDriver
+	AuthToken string
 }
 
-func storeClose() {
-	driver.close()
+// NewStore creates a new instance of Store object
+func NewStore() *Store {
+	s := new(Store)
+	s.AuthToken = os.Getenv("AUTHORIZATION_TOKEN")
+
+	s.driver = &firestoreDriver{}
+	s.driver.init()
+
+	return s
 }
 
-func storeAuth(token string) bool {
-	if storeAuthToken != "" && storeAuthToken == token {
+// Close cleanup driver connection
+func (s *Store) Close() {
+	s.driver.close()
+}
+
+// Auth check for valid authentication token
+func (s *Store) Auth(token string) bool {
+	if s.AuthToken != "" && s.AuthToken == token {
 		return true
 	}
 
-	return driver.auth(token)
+	return s.driver.auth(token)
 }
 
-func storeGet(hash string) (string, error) {
-	return driver.get(hash)
+// Get item from datastore
+func (s *Store) Get(hash string) (string, error) {
+	return s.driver.get(hash)
 }
 
-func storePut(url string) (string, error) {
+// Put adds URL to datastore
+func (s *Store) Put(url string) (string, error) {
 	// If fails or duplicate, try to generate N (MAX_RETRIES) times
 	for count := 0; count < storeMaxRetries; count++ {
 		slug, err := shortid.Generate()
@@ -54,7 +63,7 @@ func storePut(url string) (string, error) {
 			log.Printf("Shortid generation failed (%d)", count)
 			continue
 		}
-		if err = driver.put(slug, url); err == nil {
+		if err = s.driver.put(slug, url); err == nil {
 			return slug, nil
 		}
 		log.Printf("Slug store failed (%d)", count)

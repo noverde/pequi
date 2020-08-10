@@ -43,12 +43,12 @@ func init() {
 }
 
 func main() {
-	storeInit()
-	defer storeClose() // Without gin graceful stop it is not really working
+	store := NewStore()
+	defer store.Close() // Without gin graceful stop it is not really working
 
 	r := gin.Default()
 	r.GET("/:hash", func(c *gin.Context) {
-		var route, err = storeGet(c.Param("hash"))
+		var route, err = store.Get(c.Param("hash"))
 		if err != nil {
 			c.Data(http.StatusNotFound, "text/html; charset=utf-8", []byte("404 Not Found\n"))
 			return
@@ -57,7 +57,7 @@ func main() {
 	})
 
 	r.POST("/v1/shorten", func(c *gin.Context) {
-		if !storeAuth(c.GetHeader("authorization")) {
+		if !store.Auth(c.GetHeader("authorization")) {
 			c.JSON(http.StatusUnauthorized, gin.H{"Unauthorized": "Invalid authorization token on header"})
 			return
 		}
@@ -67,7 +67,7 @@ func main() {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		slug, err := storePut(data.URL)
+		slug, err := store.Put(data.URL)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
