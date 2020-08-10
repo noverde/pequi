@@ -18,6 +18,10 @@ type firestoreDriver struct {
 	client     *firestore.Client
 }
 
+func init() {
+	Register("firestore", &firestoreDriver{})
+}
+
 func (d *firestoreDriver) init() {
 	var err error
 

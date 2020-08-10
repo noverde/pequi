@@ -18,10 +18,17 @@ type storeDriver interface {
 	put(string, string) error
 }
 
+var drivers = make(map[string]storeDriver)
+
 // Store is the database storage driver.
 type Store struct {
 	driver    storeDriver
 	AuthToken string
+}
+
+// Register makes a store driver available by the provided name.
+func Register(name string, driver storeDriver) {
+	drivers[name] = driver
 }
 
 // NewStore creates a new instance of Store object
@@ -29,7 +36,15 @@ func NewStore() *Store {
 	s := new(Store)
 	s.AuthToken = os.Getenv("AUTHORIZATION_TOKEN")
 
-	s.driver = &firestoreDriver{}
+	// Get storage driver or use firestore as default.
+	name := os.Getenv("STORAGE_DRIVER")
+	if name == "" {
+		name = "firestore"
+	}
+	log.Printf("Storage driver: %s", name)
+
+	// Initialize storage driver.
+	s.driver = drivers[name]
 	s.driver.init()
 
 	return s
