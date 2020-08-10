@@ -10,15 +10,28 @@ import (
 
 const storeMaxRetries = 5
 
-var storeAuthToken string
+type storeDriver interface {
+	init()
+	close()
+	auth(string) bool
+	get(string) (string, error)
+	put(string, string) error
+}
+
+var (
+	driver         storeDriver
+	storeAuthToken string
+)
 
 func storeInit() {
 	storeAuthToken = os.Getenv("AUTHORIZATION_TOKEN")
-	firestoreInit()
+
+	driver = &firestoreDriver{}
+	driver.init()
 }
 
 func storeClose() {
-	firestoreClose()
+	driver.close()
 }
 
 func storeAuth(token string) bool {
@@ -26,11 +39,11 @@ func storeAuth(token string) bool {
 		return true
 	}
 
-	return firestoreAuth(token)
+	return driver.auth(token)
 }
 
 func storeGet(hash string) (string, error) {
-	return firestoreGet(hash)
+	return driver.get(hash)
 }
 
 func storePut(url string) (string, error) {
@@ -41,7 +54,7 @@ func storePut(url string) (string, error) {
 			log.Printf("Shortid generation failed (%d)", count)
 			continue
 		}
-		if err = firestorePut(slug, url); err == nil {
+		if err = driver.put(slug, url); err == nil {
 			return slug, nil
 		}
 		log.Printf("Slug store failed (%d)", count)

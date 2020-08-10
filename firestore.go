@@ -11,47 +11,47 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-var (
-	firestoreProjectID  string
-	firestoreCollection string
-	firestoreContext    context.Context
-	firestoreClient     *firestore.Client
-)
+type firestoreDriver struct {
+	projectID  string
+	collection string
+	context    context.Context
+	client     *firestore.Client
+}
 
-func firestoreInit() {
+func (d *firestoreDriver) init() {
 	var err error
 
 	log.Printf("Initializing Firestore storage engine")
 
-	firestoreProjectID = "*detect-project-id*"
+	d.projectID = "*detect-project-id*"
 	if value, ok := os.LookupEnv("FIRESTORE_PROJECT"); ok {
-		firestoreProjectID = value
+		d.projectID = value
 	}
-	log.Printf("Firestore project: %s", firestoreProjectID)
+	log.Printf("Firestore project: %s", d.projectID)
 
-	firestoreCollection = "urls"
+	d.collection = "urls"
 	if value, ok := os.LookupEnv("FIRESTORE_COLLECTION"); ok {
-		firestoreCollection = value
+		d.collection = value
 	}
-	log.Printf("Firestore Collection: %s", firestoreCollection)
+	log.Printf("Firestore Collection: %s", d.collection)
 
-	firestoreContext = context.Background()
-	firestoreClient, err = firestore.NewClient(firestoreContext, firestoreProjectID)
+	d.context = context.Background()
+	d.client, err = firestore.NewClient(d.context, d.projectID)
 	if err != nil {
 		log.Fatalf("Failed to create Firestore client: %v", err)
 	}
 }
 
-func firestoreClose() {
-	firestoreClient.Close()
+func (d *firestoreDriver) close() {
+	d.client.Close()
 }
 
-func firestoreAuth(token string) bool {
+func (d *firestoreDriver) auth(token string) bool {
 	return false
 }
 
-func firestoreGet(hash string) (string, error) {
-	doc, err := firestoreClient.Collection(firestoreCollection).Doc(hash).Get(firestoreContext)
+func (d *firestoreDriver) get(slug string) (string, error) {
+	doc, err := d.client.Collection(d.collection).Doc(slug).Get(d.context)
 	if err == nil {
 		if url, ok := doc.Data()["url"]; ok {
 			return url.(string), nil
@@ -61,10 +61,10 @@ func firestoreGet(hash string) (string, error) {
 	return "", err
 }
 
-func firestorePut(slug string, url string) error {
+func (d *firestoreDriver) put(slug string, url string) error {
 	// Reference collection item and run a transaction to prevent duplication
-	ref := firestoreClient.Collection(firestoreCollection).Doc(slug)
-	err := firestoreClient.RunTransaction(firestoreContext,
+	ref := d.client.Collection(d.collection).Doc(slug)
+	err := d.client.RunTransaction(d.context,
 		func(ctx context.Context, tx *firestore.Transaction) error {
 			// Try to get item
 			_, err := tx.Get(ref)
