@@ -1,4 +1,4 @@
-package main
+package store
 
 import (
 	"errors"
@@ -31,8 +31,8 @@ func Register(name string, driver storeDriver) {
 	drivers[name] = driver
 }
 
-// NewStore creates a new instance of Store object
-func NewStore() *Store {
+// New creates a new instance of Store object
+func New() *Store {
 	s := new(Store)
 	s.AuthToken = os.Getenv("AUTHORIZATION_TOKEN")
 

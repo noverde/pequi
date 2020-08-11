@@ -7,6 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+
+	"github.com/noverde/pequi/pkg/store"
 )
 
 type payload struct {
@@ -43,7 +45,7 @@ func init() {
 }
 
 func main() {
-	store := NewStore()
+	store := store.New()
 	defer store.Close() // Without gin graceful stop it is not really working
 
 	r := gin.Default()
