@@ -15,10 +15,6 @@ type payload struct {
 	URL string `json:"url" binding:"required"`
 }
 
-type header struct {
-	Authorization string `json:"authorization" binding:"required"`
-}
-
 var port string
 
 func init() {
