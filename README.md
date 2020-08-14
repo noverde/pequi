@@ -1,6 +1,7 @@
 # Pequi
 URL shortener using Cloud Firestore
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/noverde/pequi)](https://goreportcard.com/badge/github.com/noverde/pequi)
 ## setup
 
 ```
