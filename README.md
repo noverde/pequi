@@ -23,7 +23,7 @@ go run main.go
 
 ## Supported Databases
 
-- [ ] In Memory (in development)
+- [x] In Memory
 - [ ] Redis (open a Pull Request)
 - [x] Firestore
 - [ ] DynamoDB (open a Pull Request)
