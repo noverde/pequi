@@ -41,8 +41,16 @@ func init() {
 }
 
 func main() {
-	store := store.New()
-	defer store.Close() // Without gin graceful stop it is not really working
+	driver := os.Getenv("STORAGE_DRIVER")
+	if driver == "" {
+		driver = "memory"
+	}
+
+	store, err := store.New(driver)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer store.Close()
 
 	r := gin.Default()
 	r.GET("/:hash", func(c *gin.Context) {

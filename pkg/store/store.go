@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 	"os"
+	"time"
 
 	"github.com/teris-io/shortid"
 )
@@ -20,10 +21,16 @@ type storeDriver interface {
 
 var drivers = make(map[string]storeDriver)
 
+type storeData struct {
+	URL       string    `json:"url" binding:"required"`
+	CreatedAt time.Time `json:"createdAt" binding:"required"`
+}
+
 // Store is the database storage driver.
 type Store struct {
-	driver    storeDriver
-	AuthToken string
+	driver     storeDriver
+	driverName string
+	AuthToken  string
 }
 
 // Register makes a store driver available by the provided name.
@@ -32,22 +39,29 @@ func Register(name string, driver storeDriver) {
 }
 
 // New creates a new instance of Store object
-func New() *Store {
-	s := new(Store)
-	s.AuthToken = os.Getenv("AUTHORIZATION_TOKEN")
-
-	// Get storage driver or use firestore as default.
-	name := os.Getenv("STORAGE_DRIVER")
-	if name == "" {
-		name = "memory"
+func New(driverName string) (*Store, error) {
+	if driverName == "" {
+		return nil, errors.New("Driver name cannot be empty. Use .Default method instead")
 	}
-	log.Printf("Storage driver: %s", name)
 
-	// Initialize storage driver.
-	s.driver = drivers[name]
+	driver, exists := drivers[driverName]
+	if !exists {
+		return nil, errors.New("Driver does not exists")
+	}
+
+	s := &Store{
+		driver:     driver,
+		driverName: driverName,
+		AuthToken:  os.Getenv("AUTHORIZATION_TOKEN"),
+	}
 	s.driver.init()
 
-	return s
+	return s, nil
+}
+
+// Default ...
+func Default() (*Store, error) {
+	return New("memory")
 }
 
 // Close cleanup driver connection
