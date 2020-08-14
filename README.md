@@ -18,3 +18,13 @@ go mod tidy
 ```
 go run main.go
 ```
+
+## Supported Databases
+
+- [ ] In Memory (in development)
+- [ ] Redis (open a Pull Request)
+- [x] Firestore
+- [ ] DynamoDB (open a Pull Request)
+- [ ] MySQL (open a Pull Request)
+- [ ] Postgres (open a Pull Request)
+- [ ] SQLite (open a Pull Request)
