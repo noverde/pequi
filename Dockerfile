@@ -6,8 +6,10 @@ WORKDIR $GOPATH/src/app
 
 # Copy the code from the host and compile it.
 COPY . .
-RUN go mod vendor
-RUN CGO_ENABLED=0 GOOS=linux go build -a -v -o pequi .
+ENV CGO_ENABLED=0
+ENV GOOS=linux
+RUN go mod vendor && \
+    go build -a -v -o pequi .
 
 # Use the official Alpine image for a lean production container.
 FROM alpine:3
