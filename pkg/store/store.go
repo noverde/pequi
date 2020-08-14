@@ -4,7 +4,6 @@ import (
 	"errors"
 	"log"
 	"os"
-	"time"
 
 	"github.com/teris-io/shortid"
 )
@@ -20,11 +19,6 @@ type storeDriver interface {
 }
 
 var drivers = make(map[string]storeDriver)
-
-type storeData struct {
-	URL       string    `json:"url" binding:"required"`
-	CreatedAt time.Time `json:"createdAt" binding:"required"`
-}
 
 // Store is the database storage driver.
 type Store struct {
