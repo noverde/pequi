@@ -39,7 +39,7 @@ func New() *Store {
 	// Get storage driver or use firestore as default.
 	name := os.Getenv("STORAGE_DRIVER")
 	if name == "" {
-		name = "firestore"
+		name = "memory"
 	}
 	log.Printf("Storage driver: %s", name)
 
