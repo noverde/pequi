@@ -1,4 +1,4 @@
-# pequi
+# Pequi
 URL shortener using Cloud Firestore
 
 ## setup
