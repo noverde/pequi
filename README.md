@@ -3,6 +3,7 @@ URL shortener using Cloud Firestore
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/noverde/pequi)](https://goreportcard.com/badge/github.com/noverde/pequi)
 ![Build](https://github.com/noverde/pequi/workflows/Build/badge.svg?branch=master&event=push)
+![Test](https://github.com/noverde/pequi/workflows/Test/badge.svg?branch=master&event=push)
 [![codecov](https://codecov.io/gh/noverde/pequi/branch/master/graph/badge.svg)](https://codecov.io/gh/noverde/pequi)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
