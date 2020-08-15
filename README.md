@@ -1,5 +1,16 @@
 # Pequi
-URL shortener using Cloud Firestore
+
+URL shortener with multi database support.
+
+## Supported Databases
+
+- [x] In Memory
+- [ ] Redis (open a Pull Request)
+- [x] Firestore
+- [ ] DynamoDB (open a Pull Request)
+- [ ] MySQL (open a Pull Request)
+- [ ] Postgres (open a Pull Request)
+- [ ] SQLite (open a Pull Request)
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/noverde/pequi)](https://goreportcard.com/badge/github.com/noverde/pequi)
 ![Build](https://github.com/noverde/pequi/workflows/Build/badge.svg?branch=master&event=push)
@@ -23,13 +34,3 @@ go mod tidy
 ```
 go run main.go
 ```
-
-## Supported Databases
-
-- [x] In Memory
-- [ ] Redis (open a Pull Request)
-- [x] Firestore
-- [ ] DynamoDB (open a Pull Request)
-- [ ] MySQL (open a Pull Request)
-- [ ] Postgres (open a Pull Request)
-- [ ] SQLite (open a Pull Request)
