@@ -82,5 +82,18 @@ func TestStorePutGet(t *testing.T) {
 	if val != url {
 		t.Errorf("Expected \"%v\" and got \"%v\".", val, url)
 	}
+}
 
+func TestStoreItemDoesNotExits(t *testing.T) {
+	store, err := Default()
+	if err != nil {
+		t.Errorf("Error \"%v\".", err)
+	}
+	defer store.Close()
+
+	exp := "Item does not exists"
+	_, err = store.Get("qwert")
+	if err.Error() != exp {
+		t.Errorf("Expected error \"%v\" and got \"%v\".", exp, err)
+	}
 }
