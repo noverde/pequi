@@ -15,7 +15,7 @@ type storeDriver interface {
 	close()
 	auth(string) bool
 	get(string) (string, error)
-	put(string, string) error
+	set(string, string) error
 }
 
 var drivers = make(map[string]storeDriver)
@@ -77,8 +77,8 @@ func (s *Store) Get(hash string) (string, error) {
 	return s.driver.get(hash)
 }
 
-// Put adds URL to datastore
-func (s *Store) Put(url string) (string, error) {
+// Set adds URL to datastore
+func (s *Store) Set(url string) (string, error) {
 	// If fails or duplicate, try to generate N (MAX_RETRIES) times
 	for count := 0; count < storeMaxRetries; count++ {
 		slug, err := shortid.Generate()
@@ -86,7 +86,7 @@ func (s *Store) Put(url string) (string, error) {
 			log.Printf("Shortid generation failed (%d)", count)
 			continue
 		}
-		if err = s.driver.put(slug, url); err == nil {
+		if err = s.driver.set(slug, url); err == nil {
 			return slug, nil
 		}
 		log.Printf("Slug store failed (%d)", count)

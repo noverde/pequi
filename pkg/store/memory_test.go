@@ -14,14 +14,14 @@ func TestMemoryStoreAuth(t *testing.T) {
 	}
 }
 
-func TestMemoryStorePutGet(t *testing.T) {
+func TestMemoryStoreSetGet(t *testing.T) {
 	store := memoryDriver{}
 	store.init()
 	defer store.close()
 
 	slug := "qwert"
 	url := "https://github.com/noverde/pequi"
-	err := store.put(slug, url)
+	err := store.set(slug, url)
 	if err != nil {
 		t.Errorf("Error \"%v\".", err)
 	}
@@ -56,11 +56,11 @@ func TestMemoryStoreItemAlreadyExists(t *testing.T) {
 	url := "https://github.com/noverde/pequi"
 	slug := "qwert"
 
-	err := store.put(slug, url)
+	err := store.set(slug, url)
 	if err != nil {
 		t.Errorf("Error \"%v\".", err)
 	}
-	err = store.put(slug, url)
+	err = store.set(slug, url)
 	if err.Error() != exp {
 		t.Errorf("Expected error \"%v\" and got \"%v\".", exp, err)
 	}

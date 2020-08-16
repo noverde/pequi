@@ -65,7 +65,7 @@ func (d *firestoreDriver) get(slug string) (string, error) {
 	return "", err
 }
 
-func (d *firestoreDriver) put(slug string, url string) error {
+func (d *firestoreDriver) set(slug string, url string) error {
 	// Reference collection item and run a transaction to prevent duplication
 	ref := d.client.Collection(d.collection).Doc(slug)
 	err := d.client.RunTransaction(d.context,

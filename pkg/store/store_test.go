@@ -62,7 +62,7 @@ func TestStoreAuth(t *testing.T) {
 	}
 }
 
-func TestStorePutGet(t *testing.T) {
+func TestStoreSetGet(t *testing.T) {
 	store, err := Default()
 	if err != nil {
 		t.Errorf("Error \"%v\".", err)
@@ -70,7 +70,7 @@ func TestStorePutGet(t *testing.T) {
 	defer store.Close()
 
 	url := "https://github.com/noverde/pequi"
-	res, err := store.Put(url)
+	res, err := store.Set(url)
 	if err != nil {
 		t.Errorf("Error \"%v\".", err)
 	}

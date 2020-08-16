@@ -46,7 +46,7 @@ func (d *memoryDriver) get(slug string) (string, error) {
 	return "", errors.New("Item does not exists")
 }
 
-func (d *memoryDriver) put(slug string, url string) error {
+func (d *memoryDriver) set(slug string, url string) error {
 	d.mutex.Lock()
 	defer d.mutex.Unlock()
 
