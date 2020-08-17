@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 	"os"
+	"sync"
 
 	"github.com/teris-io/shortid"
 )
@@ -18,7 +19,10 @@ type storeDriver interface {
 	set(string, string) error
 }
 
-var drivers = make(map[string]storeDriver)
+var (
+	mutex   sync.RWMutex
+	drivers = make(map[string]storeDriver)
+)
 
 // Store is the database storage driver.
 type Store struct {
@@ -29,6 +33,8 @@ type Store struct {
 
 // Register makes a store driver available by the provided name.
 func Register(name string, driver storeDriver) {
+	mutex.Lock()
+	defer mutex.Unlock()
 	drivers[name] = driver
 }
 
