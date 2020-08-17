@@ -2,6 +2,13 @@
 
 URL shortener with multi database support.
 
+![Build](https://github.com/noverde/pequi/workflows/Build/badge.svg?branch=master&event=push)
+![Test](https://github.com/noverde/pequi/workflows/Test/badge.svg?branch=master&event=push)
+[![codecov](https://codecov.io/gh/noverde/pequi/branch/master/graph/badge.svg)](https://codecov.io/gh/noverde/pequi)
+[![Go Report Card](https://goreportcard.com/badge/github.com/noverde/pequi)](https://goreportcard.com/badge/github.com/noverde/pequi)
+[![Docker pulls](https://img.shields.io/docker/pulls/ecanuto/pequi.svg)](https://hub.docker.com/r/ecanuto/pequi/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ## Supported Databases
 
 - [x] In Memory
@@ -11,13 +18,6 @@ URL shortener with multi database support.
 - [ ] MySQL (open a Pull Request)
 - [ ] Postgres (open a Pull Request)
 - [ ] SQLite (open a Pull Request)
-
-![Build](https://github.com/noverde/pequi/workflows/Build/badge.svg?branch=master&event=push)
-![Test](https://github.com/noverde/pequi/workflows/Test/badge.svg?branch=master&event=push)
-[![codecov](https://codecov.io/gh/noverde/pequi/branch/master/graph/badge.svg)](https://codecov.io/gh/noverde/pequi)
-[![Go Report Card](https://goreportcard.com/badge/github.com/noverde/pequi)](https://goreportcard.com/badge/github.com/noverde/pequi)
-[![Docker pulls](https://img.shields.io/docker/pulls/ecanuto/pequi.svg)](https://hub.docker.com/r/ecanuto/pequi/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## setup
 
