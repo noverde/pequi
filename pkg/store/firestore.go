@@ -57,7 +57,7 @@ func (d *firestoreDriver) auth(token string) bool {
 func (d *firestoreDriver) get(slug string) (string, error) {
 	doc, err := d.client.Collection(d.collection).Doc(slug).Get(d.context)
 	if err == nil {
-		if url, ok := doc.Data()["url"]; ok {
+		if url, ok := doc.Data()["long_url"]; ok {
 			return url.(string), nil
 		}
 	}
@@ -83,7 +83,7 @@ func (d *firestoreDriver) set(slug string, url string) error {
 
 			// Save data
 			return tx.Set(ref, map[string]interface{}{
-				"url":       url,
+				"long_url":  url,
 				"createdAt": firestore.ServerTimestamp,
 			})
 		})
