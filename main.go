@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -40,6 +41,19 @@ func init() {
 	}
 }
 
+func normalizeURLString(url string) string {
+	if url == "" {
+		url = "localhost"
+	}
+	if !strings.HasSuffix(url, "/") {
+		url = url + "/"
+	}
+	if !strings.HasPrefix(url, "http://") && !strings.HasPrefix(url, "https://") {
+		url = "http://" + url
+	}
+	return url
+}
+
 func main() {
 	driver := os.Getenv("STORAGE_DRIVER")
 	if driver == "" {
@@ -51,6 +65,12 @@ func main() {
 		log.Fatal(err)
 	}
 	defer store.Close()
+
+	address := os.Getenv("SERVER_ADDRESS")
+	if address == "" {
+		address = "http://localhost" + port
+	}
+	address = normalizeURLString(address)
 
 	r := gin.Default()
 	r.GET("/:hash", func(c *gin.Context) {
@@ -79,7 +99,7 @@ func main() {
 			return
 		}
 
-		c.JSON(http.StatusOK, gin.H{"slug": slug})
+		c.JSON(http.StatusOK, gin.H{"slug": slug, "link": address + slug})
 	})
 	log.Fatal(r.Run(port))
 }
