@@ -13,7 +13,7 @@ type memoryDriver struct {
 }
 
 type memoryData struct {
-	url       string
+	longURL   string
 	createdAt time.Time
 }
 
@@ -40,7 +40,7 @@ func (d *memoryDriver) get(slug string) (string, error) {
 
 	value, exists := d.data[slug]
 	if exists {
-		return value.url, nil
+		return value.longURL, nil
 	}
 
 	return "", errors.New("Item does not exists")
@@ -55,7 +55,7 @@ func (d *memoryDriver) set(slug string, url string) error {
 	}
 
 	d.data[slug] = memoryData{
-		url:       url,
+		longURL:   url,
 		createdAt: time.Now(),
 	}
 
