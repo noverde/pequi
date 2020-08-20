@@ -12,7 +12,7 @@ import (
 )
 
 type payload struct {
-	URL string `json:"url" binding:"required"`
+	URL string `json:"long_url" binding:"required"`
 }
 
 var port string
