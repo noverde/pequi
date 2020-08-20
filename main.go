@@ -93,13 +93,13 @@ func main() {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		slug, err := store.Set(data.URL)
+		id, err := store.Set(data.URL)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
 
-		c.JSON(http.StatusOK, gin.H{"id": slug, "link": address + slug})
+		c.JSON(http.StatusOK, gin.H{"id": id, "link": address + id})
 	})
 	log.Fatal(r.Run(port))
 }
