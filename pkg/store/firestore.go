@@ -83,8 +83,8 @@ func (d *firestoreDriver) set(slug string, url string) error {
 
 			// Save data
 			return tx.Set(ref, map[string]interface{}{
-				"long_url":  url,
-				"createdAt": firestore.ServerTimestamp,
+				"long_url":   url,
+				"created_at": firestore.ServerTimestamp,
 			})
 		})
 
