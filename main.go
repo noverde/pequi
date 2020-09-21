@@ -99,7 +99,7 @@ func main() {
 			return
 		}
 
-		c.JSON(http.StatusOK, gin.H{"id": id, "link": address + id})
+		c.JSON(http.StatusCreated, gin.H{"id": id, "link": address + id})
 	})
 	log.Fatal(r.Run(port))
 }
