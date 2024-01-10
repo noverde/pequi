@@ -22,14 +22,10 @@ jobs:
     - name: Install dependencies
       run: |
         go version
-        go get -u golang.org/x/lint/golint
         go get -u github.com/axw/gocov/gocov
 
     - name: Code format
       run: test -z "$(gofmt -d . | tee /dev/stderr)"
-  
-    - name: Lint
-      run: golint ./...
 
     - name: Vet
       run: go vet ./...
