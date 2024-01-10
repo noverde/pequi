@@ -12,17 +12,12 @@ jobs:
 
     steps:
     - name: Set up Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v4
       with:
         go-version: '1.14'
 
     - name: Checkout
-      uses: actions/checkout@v2
-
-    - name: Install dependencies
-      run: |
-        go version
-        go get -u github.com/axw/gocov/gocov
+      uses: actions/checkout@v4
 
     - name: Code format
       run: test -z "$(gofmt -d . | tee /dev/stderr)"
@@ -30,11 +25,8 @@ jobs:
     - name: Vet
       run: go vet ./...
 
-    - name: Coverage
-      run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
+    - name: Test
+      run: go test -race -covermode=atomic ./...
 
     - name: Build
       run: go build
