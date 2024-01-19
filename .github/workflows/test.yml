@@ -27,6 +27,3 @@ jobs:
 
     - name: Test
       run: go test -race -covermode=atomic ./...
-
-    - name: Build
-      run: go build
