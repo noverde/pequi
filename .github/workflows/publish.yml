@@ -22,7 +22,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ github.repository }}
+          images: noverdetech/pequi
 
       - name: Build and push image
         uses: docker/build-push-action@v5
